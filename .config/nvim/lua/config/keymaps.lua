@@ -10,9 +10,9 @@ map("n", "<Down>", ":echoe 'Use j'<CR>", { desc = "使用 j" })
 -- 编辑快捷键
 map("i", "jk", "<Esc>", { desc = "退出编辑模式" })
 map("n", "<leader>q", ":qa<cr>", { desc = "退出编辑器" })
-map({"!"}, "<c-a>", "<HOME>", { desc = "光标到行首" })
-map({"!"}, "<c-e>", "<END>", { desc = "光标到行尾" })
-map({"n"}, "<leader>h", ":nohl<CR>", {desc = "清除搜索高亮"})
+map({ "!" }, "<c-a>", "<HOME>", { desc = "光标到行首" })
+map({ "!" }, "<c-e>", "<END>", { desc = "光标到行尾" })
+map({ "n" }, "<leader>nh", ":nohl<CR>", { desc = "清除搜索高亮" })
 
 -- 导航快捷键
 local is_maximized = false
@@ -55,7 +55,7 @@ map("n", "<A-F7>", vim.lsp.buf.references, { desc = "查看所有引用" })
 map("n", "<C-F1>", vim.diagnostic.open_float, { desc = "查看当前文件代码问题" })
 
 if vim.fn.has("nvim") == 1 then
-    map("n", "<leader>v", ":e $HOME/.config/nvim/<cr>", { desc = "打开 Neovim 配置文件" })
+  map("n", "<leader>v", ":e $HOME/.config/nvim/<cr>", { desc = "打开 Neovim 配置文件" })
 else
-    map("n", "<leader>v", ":e $MYVIMRC<cr>", { desc = "打开 Vim 配置文件" })
+  map("n", "<leader>v", ":e $MYVIMRC<cr>", { desc = "打开 Vim 配置文件" })
 end
