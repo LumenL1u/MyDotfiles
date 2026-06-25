@@ -24,6 +24,7 @@ return {
       dashboard.button("SPC ff", "󰱼  > 查找文件", "<cmd>Telescope find_files<CR>"),
       dashboard.button("SPC fs", "  > 查找字符串", "<cmd>Telescope live_grep<CR>"),
       dashboard.button("SPC wr", "󰁯  > 恢复当前目录会话", "<cmd>AutoSession restore<CR>"),
+      dashboard.button("SPC lg", "󰊢  > 打开 LazyGit", "<cmd>LazyGit<CR>"),
       dashboard.button("q", "  > 退出 NVIM", "<cmd>qa<CR>"),
     }
 
