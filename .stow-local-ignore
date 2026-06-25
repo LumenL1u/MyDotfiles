@@ -21,3 +21,6 @@ _darcs
 ^/README.*
 ^/LICENSE.*
 ^/COPYING
+
+^bootstrap\.sh$
+^pluginstall\.sh$
