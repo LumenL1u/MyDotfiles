@@ -23,21 +23,32 @@ return {
         graphql = { "prettier" },
         liquid = { "prettier" },
         lua = { "stylua" },
+        sh = { "shfmt" },
+        bash = { "shfmt" },
+        zsh = { "shfmt" },
         python = { "isort", "black" },
+      },
+      formatters = {
+        shfmt = {
+          prepend_args = { "-i", "2", "-s" },
+        },
+        stylua = {
+          prepend_args = { "--indent-type", "Spaces", "--indent-width", "2" },
+        },
       },
       format_on_save = {
         lsp_fallback = true,
         async = false,
-        timeout_ms = 3000,
+        timeout_ms = 2000,
       },
     })
 
-    vim.keymap.set({ "n", "v" }, "<leader>mp", function()
+    vim.keymap.set({ "n", "v" }, "<leader>cf", function()
       conform.format({
         lsp_fallback = true,
-        async = false,
-        timeout_ms = 1000,
+        async = true,
+        timeout_ms = 2000,
       })
-    end, { desc = "Format file or range (in visual mode)" })
+    end, { desc = "格式化文件或范围(可视模式下)" })
   end,
 }
