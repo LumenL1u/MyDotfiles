@@ -12,6 +12,5 @@
 # 已删除的 iTerm2 运行时目录（防止误提交回来）
 .config/iterm2/
 
-# 机器本地：AI 计划文件、误放的 nvim 嵌套副本
+# 机器本地：AI 计划文件
 .mimocode/plans/
-.config/nvim/nvim/

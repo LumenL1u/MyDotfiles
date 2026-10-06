@@ -1,31 +1,20 @@
+-- Keymaps are automatically loaded on the VeryLazy event Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
+-- Add any additional keymaps here
+
 local map = vim.keymap.set
--- ==================== 肌肉记忆强制训练 ====================
--- 强制使用 h, j, k, l 进行移动
-map("n", "<Left>", ":echoe 'Use h'<CR>", { desc = "使用 h" })
-map("n", "<Right>", ":echoe 'Use l'<CR>", { desc = "使用 l" })
-map("n", "<Up>", ":echoe 'Use k'<CR>", { desc = "使用 k" })
-map("n", "<Down>", ":echoe 'Use j'<CR>", { desc = "使用 j" })
 
--- ==================== 按键映射 =====================
--- 编辑快捷键
-map("i", "jk", "<Esc>", { desc = "退出编辑模式" })
-map("n", "<leader>q", ":qa<cr>", { desc = "退出编辑器" })
-map({ "!" }, "<c-a>", "<HOME>", { desc = "光标到行首" })
-map({ "!" }, "<c-e>", "<END>", { desc = "光标到行尾" })
-map({ "n" }, "<leader>nh", ":nohl<CR>", { desc = "清除搜索高亮" })
-
--- 导航快捷键
 local is_maximized = false
 local function toggle_maximize_window()
-	if is_maximized then
-		vim.cmd("wincmd =")
-		is_maximized = false
-	else
-		vim.cmd("wincmd _")
-		vim.cmd("wincmd |")
-		is_maximized = true
-	end
+  if is_maximized then
+    vim.cmd("wincmd =")
+    is_maximized = false
+  else
+    vim.cmd("wincmd _")
+    vim.cmd("wincmd |")
+    is_maximized = true
+  end
 end
+map("i", "jk", "<Esc>", { desc = "退出编辑模式" })
 map("n", "<leader>sv", "<C-w>v", { desc = "垂直切分窗口" })
 map("n", "<leader>sh", "<C-w>s", { desc = "水平切分窗口" })
 map("n", "<leader>sx", "<cmd>close<CR>", { desc = "关闭当前窗口" })
@@ -41,8 +30,8 @@ map("n", "<C-j>", "<C-w>j", { desc = "切换到下方窗口" })
 map("n", "<C-k>", "<C-w>k", { desc = "切换到上方窗口" })
 map("n", "<C-l>", "<C-w>l", { desc = "切换到右侧窗口" })
 
-if vim.fn.has("nvim") == 1 then
-	map("n", "<leader>v", ":e $HOME/.config/nvim/<cr>", { desc = "打开 Neovim 配置文件" })
-else
-	map("n", "<leader>v", ":e $MYVIMRC<cr>", { desc = "打开 Vim 配置文件" })
-end
+vim.keymap.set("n", "<c-a>", ":%y<cr>", { silent = true, desc = "复制整个文件内容" })
+vim.keymap.set("n", "<c-\\>", function()
+  vim.cmd("lcd %:h")
+  Snacks.terminal(nil, { cwd = vim.fn.getcwd(-1, 0) }) -- 取当前窗口的 cwd
+end, { desc = "Terminal at window dir" })
