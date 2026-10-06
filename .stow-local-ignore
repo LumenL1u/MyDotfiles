@@ -1,4 +1,5 @@
 # Comments and blank lines are allowed.
+# 注意：含 `/` 的正则 stow 会自动加 (^|/)...(/|$) 锚定，不要手动加 ^
 
 RCS
 .+,v
@@ -24,3 +25,8 @@ _darcs
 
 ^bootstrap\.sh$
 ^pluginstall\.sh$
+^\.gitconfig\.local\.example$
+^AGENTS\.md$
+\.mimocode
+\.DS_Store$
+

@@ -11,8 +11,6 @@ if type fd &>/dev/null; then
     alias find="fd"
 fi
 if type nvim &>/dev/null; then
-    export EDITOR="nvim"
-    export VISUAL="nvim"
     alias vi="nvim"
     alias vim="nvim"
 fi
@@ -26,7 +24,6 @@ if type tmux &>/dev/null; then
 fi
 
 if type zoxide &>/dev/null; then
-    [ -n "$ZSH_VERSION" ] && eval "$(zoxide init zsh)"
-    [ -n "$ZSH_VERSION" ] && eval "$(zoxide init bash)"
+    eval "$(zoxide init zsh)"
     alias cd="z"
 fi

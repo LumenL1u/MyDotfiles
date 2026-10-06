@@ -1,6 +1,17 @@
 [alias]
 
 	whoami = config user.email
+	st = status -sb
+	co = checkout
+	br = branch
+	cm = commit -m
+	lg = log --oneline --graph --decorate -20
+	unstage = reset HEAD --
+	last = log -1 HEAD
+	undo = reset --soft HEAD~1
+	amend = commit --amend --no-edit
+	dfc = diff --cached
+	wip = !git add -A && git commit -m 'WIP'
 
 [apply]
 
@@ -119,3 +130,7 @@
 [user]
 	name = lumenliu
 	email = lumenliu.codes@gmail.com
+
+# 机器本地配置（代理、密钥、特殊用户等），文件不存在时自动忽略
+[include]
+	path = ~/.gitconfig.local

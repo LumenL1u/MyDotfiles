@@ -10,19 +10,35 @@ else
 fi
 cd "$SCRIPT_DIR" || exit
 
-git pull origin main
+git pull origin main 2>/dev/null || true
 
 doIt() {
+  # 1. 安装依赖（字体、CLI、插件等）
   chmod +x ./pluginstall.sh && ./pluginstall.sh
+
+  # 2. 生成机器本地 git 配置模板（不入库）
+  if [[ ! -f ~/.gitconfig.local && -f .gitconfig.local.example ]]; then
+    cp .gitconfig.local.example ~/.gitconfig.local
+    echo "已创建 ~/.gitconfig.local，请按需填写 name/email 和代理。"
+  fi
+
+  # 3. 用 GNU Stow 创建符号链接
   if type stow &>/dev/null; then
     stow --adopt -v -t "$HOME" .
+    # --adopt 会把目标机已有文件“搬进”仓库，造成 git 脏状态。
+    # 若你确认以仓库版本为准，运行：git checkout -- .  来恢复仓库文件（符号链接保留）。
+    echo "提示：若 git status 显示仓库文件被改动，可执行 'cd ~/dotfiles && git checkout -- .' 恢复。"
   else
     echo "Error: GNU stow is not installed. Please install it first."
-    echo "Install via: brew install stow (macOS) or apt install stow (Linux)"
+    echo "Install via: brew install stow (macOS) / apt install stow (Linux) / dnf install stow / pacman -S stow"
     echo "Then run: stow --adopt -v -t ~ ."
     return 1
   fi
-  if [ -f ~/.bash_profile ]; then
+
+  # 4. 重载 shell
+  if [ -f ~/.zshrc ]; then
+    source ~/.zshrc
+  elif [ -f ~/.bash_profile ]; then
     source ~/.bash_profile
   elif [ -f ~/.bashrc ]; then
     source ~/.bashrc

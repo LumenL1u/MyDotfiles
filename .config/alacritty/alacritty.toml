@@ -12,6 +12,7 @@ padding.y = 10
 decorations = "Buttonless"
 
 opacity = 0.8
+# blur 仅在 macOS/Windows 生效，Linux 上会被安全忽略
 blur = true
 
 option_as_alt = 'Both'
@@ -21,26 +22,26 @@ normal.family = "MesloLGS NF"
 
 size = 13
 
-# Cmd + H -> 向左 (Arrow Left)
-[[keyboard.bindings]]
-key = "H"
-mods = "Command"
-chars = "\u001B[D"
-
-# Cmd + J -> 向下 (Arrow Down)
-[[keyboard.bindings]]
-key = "J"
-mods = "Command"
-chars = "\u001B[B"
-
-# Cmd + K -> 向上 (Arrow Up)
-[[keyboard.bindings]]
-key = "K"
-mods = "Command"
-chars = "\u001B[A"
-
-# Cmd + L -> 向右 (Arrow Right)
-[[keyboard.bindings]]
-key = "L"
-mods = "Command"
-chars = "\u001B[C"
+# Cmd + H -> 向左 (Arrow Left)   [macOS: Command = Linux: Super]
+# [[keyboard.bindings]]
+# key = "H"
+# mods = "Command"
+# chars = "\u001B[D"
+#
+# # Cmd + J -> 向下 (Arrow Down)
+# [[keyboard.bindings]]
+# key = "J"
+# mods = "Command"
+# chars = "\u001B[B"
+#
+# # Cmd + K -> 向上 (Arrow Up)
+# [[keyboard.bindings]]
+# key = "K"
+# mods = "Command"
+# chars = "\u001B[A"
+#
+# # Cmd + L -> 向右 (Arrow Right)
+# [[keyboard.bindings]]
+# key = "L"
+# mods = "Command"
+# chars = "\u001B[C"

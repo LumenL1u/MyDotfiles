@@ -1,1 +1,18 @@
-export PATH="$HOME/.local/bin:/opt/homebrew/bin:/usr/local/bin:$PATH"
+# Portable PATH（dotfiles 管理）
+# 跨 macOS(Apple Silicon/Intel) 与 Linux 均可工作。
+
+# 优先用户本地 bin
+export PATH="$HOME/.local/bin:$PATH"
+
+# Homebrew：用 brew shellenv 自动探测路径
+#   - macOS Apple Silicon: /opt/homebrew
+#   - macOS Intel:         /usr/local
+#   - Linux:               /home/linuxbrew/.linuxbrew
+if command -v brew &>/dev/null; then
+  eval "$(brew shellenv)"
+fi
+
+# 若通过 Homebrew 安装了 openjdk，加入 PATH
+if [[ -n "${HOMEBREW_PREFIX:-}" && -d "$HOMEBREW_PREFIX/opt/openjdk/bin" ]]; then
+  export PATH="$HOMEBREW_PREFIX/opt/openjdk/bin:$PATH"
+fi

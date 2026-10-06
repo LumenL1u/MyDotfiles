@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+
+# Make nvim the default editor.
+export EDITOR='nvim'
+export VISUAL='nvim'
+
+# Enable persistent REPL history for `node`.
+export NODE_REPL_HISTORY=~/.node_history
+# Allow 32³ entries; the default is 1000.
+export NODE_REPL_HISTORY_SIZE='32768'
+# Use sloppy mode by default, matching web browsers.
+export NODE_REPL_MODE='sloppy'
+
+# Make Python use UTF-8 encoding for output to stdin, stdout, and stderr.
+export PYTHONIOENCODING='UTF-8'
+
+# Increase Bash history size. Allow 32³ entries; the default is 500.
+export HISTSIZE='32768'
+export HISTFILESIZE="${HISTSIZE}"
+# Omit duplicates and commands that begin with a space from history.
+export HISTCONTROL='ignoreboth'
+
+# Prefer US English and use UTF-8.
+# 只在该 locale 可用时才设置，避免最小化 Linux 报错
+if locale -a 2>/dev/null | grep -qi '^en_US\.\(utf-*8\|UTF-8\)$'; then
+    export LANG='en_US.UTF-8'
+    export LC_ALL='en_US.UTF-8'
+else
+    export LANG="${LANG:-C.UTF-8}"
+fi
+
+# Highlight section titles in manual pages.
+export LESS_TERMCAP_md=$'\033[1;33m'
+
+# Don’t clear the screen after quitting a manual page.
+export MANPAGER='less -X'
+
+# Avoid issues with `gpg` as installed via Homebrew.
+# https://stackoverflow.com/a/42265848/96656
+# 仅在交互式 shell 中设置，非交互 shell 里 $(tty) 会输出 "not a tty"
+if [ -t 0 ]; then
+    export GPG_TTY="$(tty)"
+fi
+
+# Hide the “default interactive shell is now zsh” warning on macOS.
+export BASH_SILENCE_DEPRECATION_WARNING=1
