@@ -1,0 +1,54 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y zsh stow lua5.4 shellcheck
+
+      - name: Bash syntax check
+        run: |
+          set -e
+          for f in bootstrap.sh pluginstall.sh .aliases .aliases.macos .aliases.linux .functions .exports .extra .path; do
+            bash -n "$f" || { echo "FAIL: $f"; exit 1; }
+          done
+          echo "All bash syntax checks passed"
+
+      - name: Zsh syntax check
+        run: |
+          set -e
+          for f in .zshrc .aliases .aliases.macos .aliases.linux .functions .exports .extra .path; do
+            zsh -n "$f" || { echo "FAIL: $f"; exit 1; }
+          done
+          echo "All zsh syntax checks passed"
+
+      - name: ShellCheck (informational)
+        run: |
+          shellcheck bootstrap.sh pluginstall.sh .aliases .aliases.macos .aliases.linux .functions .exports .extra .path || true
+
+      - name: Validate WezTerm config syntax
+        run: |
+          lua5.4 -e 'assert(loadfile(".config/wezterm/wezterm.lua"))' && echo "wezterm.lua OK"
+
+      - name: Stow dry-run
+        run: |
+          mkdir -p /tmp/stow-target
+          stow -n -v -t /tmp/stow-target .
+          echo "Stow dry-run passed"
+
+      - name: Validate Herdr config
+        run: |
+          curl -fsSL https://herdr.dev/install.sh | sh
+          mkdir -p ~/.config/herdr
+          cp .config/herdr/config.toml ~/.config/herdr/config.toml
+          herdr config check
