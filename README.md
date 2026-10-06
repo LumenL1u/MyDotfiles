@@ -7,7 +7,7 @@ Personal dotfiles managed by GNU Stow.
 | Component | Tech Stack |
 |-----------|------------|
 | Shell | Oh My Zsh + Powerlevel10k |
-| Terminal | Alacritty（macOS / Linux 通用） |
+| Terminal | WezTerm（macOS / Linux / Windows 通用） |
 | Editor | Neovim (lazy.nvim) |
 | Multiplexer | tmux (tpm) |
 | Modern CLI | eza, bat, fd, zoxide, ripgrep, lazygit |
@@ -21,7 +21,7 @@ Personal dotfiles managed by GNU Stow.
 - `.gitconfig` — 通用 git 配置（代理请放 `~/.gitconfig.local`）
 - `.gitconfig.local.example` — 机器本地 git 配置模板（不入库）
 - `.tmux.conf` — tmux + tpm
-- `.config/alacritty` — Alacritty 配置与主题
+- `.config/wezterm` — WezTerm 跨平台终端配置
 - `.config/nvim` — Neovim (lazy.nvim)
 
 ## Quick Start

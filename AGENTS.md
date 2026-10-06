@@ -10,7 +10,7 @@ Personal dotfiles managed by GNU Stow. Primary target is macOS; Linux is seconda
 - **`.stow-local-ignore`**: Excludes `README*`, `LICENSE*`, `bootstrap.sh`, `pluginstall.sh` from symlinking
 - **Shell stack**: Zsh + Oh My Zsh + Powerlevel10k
 - **Editor**: Neovim with lazy.nvim (config in `.config/nvim/`)
-- **Terminal**: Alacritty (`.config/alacritty/`) and iTerm2 (`.config/iterm2/`)
+- **Terminal**: WezTerm (`.config/wezterm/`) — cross-platform (macOS / Linux / Windows)
 - **Multiplexer**: tmux with tpm (plugins auto-install via tpm)
 
 ## Key files and their roles
@@ -86,12 +86,13 @@ Personal dotfiles managed by GNU Stow. Primary target is macOS; Linux is seconda
 - `git wip` — stage all and commit as "WIP"
 - `git dfc` — staged diff
 
-## Alacritty notes
+## WezTerm notes
 
-- Uses coolnight theme by default (imported in `alacritty.toml`)
+- Config: `.config/wezterm/wezterm.lua` (Lua, cross-platform)
+- Colors: coolnight theme (same palette as previous Alacritty setup)
 - Font: MesloLGS NF (Nerd Font, required for Powerlevel10k)
-- Cmd+H/J/K/L mapped to arrow keys for vim-style navigation
-- `option_as_alt = 'Both'` enables Alt-key shortcuts in terminal
+- Window: opacity 0.8, macOS background blur, padding 10, no title bar (RESIZE)
+- Alt key sends Meta (ESC prefix) for vim/tmux shortcuts
 
 ## tmux notes
 
@@ -131,7 +132,7 @@ Toggle with `proxy_on` / `proxy_off` functions defined in `.zshrc`.
 - **Shell files** (`.zshrc`, `.aliases`, `.exports`, `.functions`, `.extra`, `.path`): Changes take effect after `exec zsh` or `source ~/.zshrc`
 - **Neovim configs** (`.config/nvim/lua/**`): Changes take effect on next Neovim launch; lazy.nvim handles plugin sync automatically
 - **tmux config** (`.tmux.conf`): Reload with `tmux source-file ~/.tmux.conf` or press `prefix + r` inside tmux
-- **Alacritty config** (`.config/alacritty/alacritty.toml`): Auto-reloads on save
+- **WezTerm config** (`.config/wezterm/wezterm.lua`): Reload with `Ctrl+Shift+R` or restart WezTerm
 - **Git config** (`.gitconfig`): Changes take effect immediately for new git commands
 
 ## Do not

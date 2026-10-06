@@ -97,6 +97,78 @@ else
     echo "Warning: 未检测到支持的包管理器 (brew/apt/dnf/pacman)，请手动安装依赖。"
 fi
 
+# ==================== install WezTerm ====================
+install_wezterm() {
+    echo "Installing WezTerm..."
+    if command -v wezterm &>/dev/null; then
+        echo "  WezTerm 已安装，跳过。"
+        return 0
+    fi
+
+    # macOS
+    if [[ "$OSTYPE" == darwin* ]]; then
+        if command -v brew &>/dev/null; then
+            brew install --cask wezterm
+        else
+            echo "  Warning: 请先安装 Homebrew，再执行: brew install --cask wezterm"
+        fi
+        return 0
+    fi
+
+    # Arch Linux
+    if command -v pacman &>/dev/null; then
+        sudo pacman -S --noconfirm wezterm
+        return 0
+    fi
+
+    # Debian/Ubuntu/Fedora：从 GitHub Releases 下载安装包
+    local ver ext asset pkg distro_asset
+    ver=$(curl -fsSL https://api.github.com/repos/wez/wezterm/releases/latest \
+          | grep -m1 '"tag_name"' | cut -d'"' -f4)
+    if [ -z "$ver" ]; then
+        echo "  Warning: 无法获取 WezTerm 最新版本，请手动安装: https://wezterm.org/install/linux.html"
+        return 1
+    fi
+
+    ext="deb"
+    command -v dnf &>/dev/null && ext="rpm"
+
+    # 列出所有 .deb/.rpm 安装包
+    asset=$(curl -fsSL https://api.github.com/repos/wez/wezterm/releases/latest \
+            | grep -oE '"browser_download_url": *"[^"]+\.'"$ext"'"' \
+            | cut -d'"' -f4)
+
+    # 优先匹配当前发行版（如 Ubuntu24.04 / Debian12），否则取第一个
+    if [ -n "$asset" ]; then
+        distro_asset=""
+        local ver_id
+        ver_id=$(grep -oP 'VERSION_ID="\K[^"]+' /etc/os-release 2>/dev/null || true)
+        if grep -qi ubuntu /etc/os-release; then
+            distro_asset=$(echo "$asset" | grep -F "Ubuntu${ver_id}" | head -1)
+        elif grep -qi debian /etc/os-release; then
+            distro_asset=$(echo "$asset" | grep -F "Debian${ver_id}" | head -1)
+        fi
+        [ -n "$distro_asset" ] && asset="$distro_asset"
+        asset=$(echo "$asset" | head -1)
+    fi
+
+    if [ -z "$asset" ]; then
+        echo "  Warning: 未找到匹配的 .$ext 安装包，请手动安装: https://wezterm.org/install/linux.html"
+        return 1
+    fi
+
+    pkg="/tmp/wezterm.${ext}"
+    echo "  下载: $asset"
+    curl -fL "$asset" -o "$pkg"
+    if [ "$ext" = "deb" ]; then
+        sudo apt install -y "$pkg" 2>/dev/null || sudo dpkg -i "$pkg"
+    else
+        sudo dnf install -y "$pkg"
+    fi
+    rm -f "$pkg"
+}
+install_wezterm
+
 # tpm (tmux plugin manager)
 if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then
     git clone --depth=1 https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
