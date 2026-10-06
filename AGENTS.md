@@ -11,7 +11,7 @@ Personal dotfiles managed by GNU Stow. Primary target is macOS; Linux is seconda
 - **Shell stack**: Zsh + Oh My Zsh + Powerlevel10k
 - **Editor**: Neovim with lazy.nvim (config in `.config/nvim/`)
 - **Terminal**: WezTerm (`.config/wezterm/`) — cross-platform (macOS / Linux / Windows)
-- **Multiplexer**: tmux with tpm (plugins auto-install via tpm)
+- **Multiplexer**: Herdr (terminal workspace manager, config in `.config/herdr/`)
 
 ## Key files and their roles
 
@@ -25,7 +25,7 @@ Personal dotfiles managed by GNU Stow. Primary target is macOS; Linux is seconda
 | `.aliases` | Shell aliases (navigation, git shortcuts, macOS utilities) |
 | `.functions` | Shell functions (mkd, server, tre, etc.) |
 | `.extra` | Modern CLI overrides: eza→ls, bat→cat, fd→find, zoxide→cd, nvim→vi/vim |
-| `.tmux.conf` | tmux config with vim-style keybindings and plugins |
+| `.config/herdr/config.toml` | Herdr keybindings, terminal defaults (prefix ctrl+b) |
 | `.gitconfig` | Git aliases (st, lg, cm, undo, amend, wip) and URL shorthands |
 | `.p10k.zsh` | Powerlevel10k prompt configuration |
 
@@ -92,17 +92,17 @@ Personal dotfiles managed by GNU Stow. Primary target is macOS; Linux is seconda
 - Colors: coolnight theme (same palette as previous Alacritty setup)
 - Font: MesloLGS NF (Nerd Font, required for Powerlevel10k)
 - Window: opacity 0.8, macOS background blur, padding 10, no title bar (RESIZE)
-- Alt key sends Meta (ESC prefix) for vim/tmux shortcuts
+- Alt key sends Meta (ESC prefix) for vim/herdr shortcuts
 
-## tmux notes
+## Herdr notes
 
-- Prefix is default `C-b`
-- Split: `|` for horizontal, `-` for vertical (opens in current path)
-- `r` reloads config
-- `h/j/k/l` resize panes (5 units)
-- `m` toggle zoom
-- Vi copy mode: `v` to select, `y` to copy
-- Plugins: vim-tmux-navigator, tmux-power, tmux-resurrect, tmux-continuum
+- Prefix is default `ctrl+b` (same as tmux); prefix-free `ctrl+alt+h/j/k/l` also moves panes
+- New tab `prefix+c`, split right `prefix+v`, split down `prefix+minus`
+- Move panes `prefix+h/j/k/l`, zoom `prefix+z`, close pane `prefix+x`, resize `prefix+r`
+- Vi copy mode: `prefix+[` then `v` to select, `y` to copy, `q` to exit
+- Detach `prefix+q`; goto picker `prefix+g`; keybind help `prefix+?`
+- Mouse-native: click/drag/resize work without keybindings
+- Config: `.config/herdr/config.toml`; reload with `herdr server reload-config`
 
 ## Proxy configuration
 
@@ -114,7 +114,7 @@ Toggle with `proxy_on` / `proxy_off` functions defined in `.zshrc`.
 
 - **macOS**: Homebrew (`/opt/homebrew`)
 - **Linux**: apt (with Aliyun mirror for Ubuntu)
-- Key packages: neovim, eza, bat, fd, zoxide, ripgrep, lazygit, tmux, shfmt, tree-sitter
+- Key packages: neovim, eza, bat, fd, zoxide, ripgrep, lazygit, herdr, shfmt, tree-sitter
 
 ## Conventions
 
@@ -131,7 +131,7 @@ Toggle with `proxy_on` / `proxy_off` functions defined in `.zshrc`.
 
 - **Shell files** (`.zshrc`, `.aliases`, `.exports`, `.functions`, `.extra`, `.path`): Changes take effect after `exec zsh` or `source ~/.zshrc`
 - **Neovim configs** (`.config/nvim/lua/**`): Changes take effect on next Neovim launch; lazy.nvim handles plugin sync automatically
-- **tmux config** (`.tmux.conf`): Reload with `tmux source-file ~/.tmux.conf` or press `prefix + r` inside tmux
+- **Herdr config** (`.config/herdr/config.toml`): Reload with `herdr server reload-config`
 - **WezTerm config** (`.config/wezterm/wezterm.lua`): Reload with `Ctrl+Shift+R` or restart WezTerm
 - **Git config** (`.gitconfig`): Changes take effect immediately for new git commands
 

@@ -14,13 +14,10 @@ if type nvim &>/dev/null; then
     alias vi="nvim"
     alias vim="nvim"
 fi
-if type tmux &>/dev/null; then
-    alias t='tmux'
-    alias ta='tmux attach -t'
-    alias tc='tmux new-session -s'
-    alias tcd='tmux new-session -d -s'
-    alias tl='tmux list-session'
-    alias tk='tmux kill-session -t'
+if type herdr &>/dev/null; then
+    alias t='herdr'
+    alias ta='herdr session attach'
+    alias tl='herdr status'
 fi
 
 if type zoxide &>/dev/null; then

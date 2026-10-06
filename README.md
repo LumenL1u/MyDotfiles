@@ -9,7 +9,7 @@ Personal dotfiles managed by GNU Stow.
 | Shell | Oh My Zsh + Powerlevel10k |
 | Terminal | WezTerm（macOS / Linux / Windows 通用） |
 | Editor | Neovim (lazy.nvim) |
-| Multiplexer | tmux (tpm) |
+| Multiplexer | Herdr |
 | Modern CLI | eza, bat, fd, zoxide, ripgrep, lazygit |
 
 ## 目录结构
@@ -20,7 +20,7 @@ Personal dotfiles managed by GNU Stow.
 - `.functions` / `.exports` / `.extra` / `.path` — 函数、环境变量、工具别名、PATH
 - `.gitconfig` — 通用 git 配置（代理请放 `~/.gitconfig.local`）
 - `.gitconfig.local.example` — 机器本地 git 配置模板（不入库）
-- `.tmux.conf` — tmux + tpm
+- `.config/herdr` — Herdr 终端工作区管理器
 - `.config/wezterm` — WezTerm 跨平台终端配置
 - `.config/nvim` — Neovim (lazy.nvim)
 
@@ -90,7 +90,7 @@ Fedora 若 `fd`/`bat` 命令不存在，脚本会自动创建 `fdfind→fd`、`b
 - `ll` - List files with eza
 - `cat` - View files with bat
 - `z` - Jump directories with zoxide
-- `t` - tmux shorthand
+- `t` - Herdr shorthand
 
 ### Proxy
 - `proxy_on` - Enable terminal proxy（地址由环境变量 `PROXY_ADDR` 覆盖）

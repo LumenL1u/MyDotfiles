@@ -41,7 +41,7 @@ end
 config.enable_tab_bar = false
 
 -- ============ Alt 键行为（对应 Alacritty option_as_alt = 'Both'） ============
--- false = Alt 作为 Meta 修饰键（发送 ESC 前缀），vim/tmux 快捷键需要
+-- false = Alt 作为 Meta 修饰键（发送 ESC 前缀），vim/herdr 快捷键需要
 config.send_composed_key_when_left_alt_is_pressed = false
 config.send_composed_key_when_right_alt_is_pressed = false
 

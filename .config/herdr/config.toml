@@ -1,0 +1,23 @@
+# Herdr 终端工作区管理器配置（替代 tmux）
+# 文档: https://herdr.dev
+# 校验: herdr config check
+
+# 跳过首次运行引导
+onboarding = false
+
+[terminal]
+# 新面板默认使用 zsh
+default_shell = "zsh"
+# macOS 下用 login shell 以加载 Homebrew PATH（其他平台保持非 login）
+shell_mode = "auto"
+
+[keys]
+# 默认 prefix 就是 ctrl+b（与 tmux 一致），无需额外设置。
+# 增加 prefix-free 直达快捷键：ctrl+alt 组合在终端/OS 上几乎都安全。
+focus_pane_left = ["prefix+h", "ctrl+alt+h"]
+focus_pane_down = ["prefix+j", "ctrl+alt+j"]
+focus_pane_up = ["prefix+k", "ctrl+alt+k"]
+focus_pane_right = ["prefix+l", "ctrl+alt+l"]
+new_tab = ["prefix+c", "ctrl+alt+c"]
+next_tab = ["prefix+n", "ctrl+alt+]"]
+previous_tab = ["prefix+p", "ctrl+alt+["]
