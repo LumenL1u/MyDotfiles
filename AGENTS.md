@@ -19,7 +19,7 @@ Personal dotfiles managed by GNU Stow. Primary target is macOS; Linux is seconda
 |------|---------|
 | `bootstrap.sh` | Entry point: pulls latest, runs `pluginstall.sh`, then `stow --adopt` |
 | `pluginstall.sh` | Installs fonts, Homebrew/apt packages, Oh My Zsh, zsh plugins, Neovim plugins |
-| `.zshrc` | Sources Oh My Zsh, then loads `.path .exports .aliases .functions .extra` in order |
+| `.zshrc` | Sources Oh My Zsh, then loads `.path .exports .aliases .functions .extra .exports.local` in order |
 | `.path` | PATH setup (Homebrew, ~/.local/bin) |
 | `.exports` | Environment variables (EDITOR, LANG, HISTSIZE, etc.) |
 | `.aliases` | Shell aliases (navigation, git shortcuts, macOS utilities) |
@@ -73,8 +73,9 @@ Personal dotfiles managed by GNU Stow. Primary target is macOS; Linux is seconda
 5. `.aliases` — shell aliases
 6. `.functions` — shell functions
 7. `.extra` — modern CLI tool overrides (eza, bat, fd, zoxide, nvim)
-8. `.p10k.zsh` — prompt config
-9. `.fzf.zsh` — fzf integration (if exists)
+8. `.exports.local` — machine-local env overrides/secrets (optional, not in repo)
+9. `.p10k.zsh` — prompt config
+10. `.fzf.zsh` — fzf integration (if exists)
 
 ## Git shortcuts (from .gitconfig)
 
@@ -141,4 +142,4 @@ Toggle with `proxy_on` / `proxy_off` functions defined in `.zshrc`.
 - Run `bootstrap.sh` on a machine with existing dotfiles without understanding `--adopt` behavior
 - Modify `pluginstall.sh` without testing on both macOS and Linux paths
 - Add files to repo root that should not be symlinked — update `.stow-local-ignore` first
-- Machine-local config/secrets are NOT kept in this repo; maintain them directly in `$HOME` (e.g. `~/.gitconfig.local`, which `.gitconfig` includes; `~/.local.zshrc` and `~/.path.local/*.sh`, which `.zshrc` sources)
+- Machine-local config/secrets are NOT kept in this repo; maintain them directly in `$HOME` (e.g. `~/.gitconfig.local`, which `.gitconfig` includes; `~/.exports.local`, which `.zshrc` sources and `.gitignore` excludes)

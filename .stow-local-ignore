@@ -26,6 +26,7 @@ _darcs
 ^bootstrap\.sh$
 ^pluginstall\.sh$
 ^AGENTS\.md$
+^\.exports\.local$
 \.mimocode
 \.DS_Store$
 

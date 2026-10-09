@@ -11,19 +11,22 @@ export ZSH="$HOME/.oh-my-zsh"
 # Set name of the theme to load.
 ZSH_THEME="powerlevel10k/powerlevel10k"
 
-# ⚠️ 这些开关必须在 source oh-my-zsh.sh 之前设置才会生效
-DISABLE_AUTO_UPDATE="true"
-DISABLE_COMPFIX="true"
 
 # Which plugins would you like to load?
 # Standard plugins can be found in $ZSH/plugins/
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 plugins=(git zsh-autosuggestions zsh-syntax-highlighting zsh-vi-mode)
-
+# before source $ZSH/oh-my-zsh.sh
+function zvm_config() {
+    ZVM_VI_INSERT_ESCAPE_BINDKEY=jk
+    ZVM_ESCAPE_KEYTIMEOUT=0.1
+}
+DISABLE_AUTO_UPDATE="true"
+DISABLE_COMPFIX="true"
 source $ZSH/oh-my-zsh.sh
 
 # source extra files: 跨平台共享配置
-for file in ~/.{exports,aliases,functions,extra,path}; do
+for file in ~/.{exports,aliases,functions,extra,path,exports.local}; do
   [ -r "$file" ] && [ -f "$file" ] && source "$file"
 done
 unset file
@@ -34,13 +37,6 @@ if [[ "$OSTYPE" == darwin* && -r ~/.aliases.macos ]]; then
 elif [[ "$OSTYPE" == linux* && -r ~/.aliases.linux ]]; then
   source ~/.aliases.linux
 fi
-
-# 机器本地覆盖（可选，不进 git）：~/.path.local/*.sh 或 ~/.local.zshrc
-for file in ~/.path.local/*.sh(N); do
-  source "$file"
-done
-unset file
-[[ -r ~/.local.zshrc ]] && source ~/.local.zshrc
 
 # Proxy switch（可通过环境变量覆盖，避免把本机代理地址写死在仓库里）
 export PROXY_ADDR="${PROXY_ADDR:-http://127.0.0.1:33211}"
@@ -56,20 +52,11 @@ function proxy_off() {
     echo "Terminal proxy disabled"
 }
 
-# zsh-vi-mode 配置（插件已加入 plugins 数组，无需手动 source）
-function zvm_config() {
-    ZVM_VI_INSERT_ESCAPE_BINDKEY=jk
-    ZVM_ESCAPE_KEYTIMEOUT=0.03
-}
-
 # pyenv：仅在已安装时初始化
 if command -v pyenv &>/dev/null; then
     export PYENV_ROOT="$HOME/.pyenv"
     eval "$(pyenv init - zsh)"
 fi
-
-# 机器本地配置（如模型 API 等），不存在则跳过，避免新机器报错
-[[ -r ~/model_config.sh ]] && source ~/model_config.sh
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh

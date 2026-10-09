@@ -17,7 +17,7 @@ Personal dotfiles managed by GNU Stow.
 - `.zshrc` / `.p10k.zsh` — zsh 与提示符
 - `.aliases` — 跨平台共享别名
 - `.aliases.macos` / `.aliases.linux` — 平台专属别名
-- `.functions` / `.exports` / `.extra` / `.path` — 函数、环境变量、工具别名、PATH
+- `.functions` / `.exports` / `.extra` / `.path` — 函数、环境变量、工具别名、PATH（机器本地覆盖放 `~/.exports.local`）
 - `.gitconfig` — 通用 git 配置
 - `.config/herdr` — Herdr 终端工作区管理器
 - `.config/wezterm` — WezTerm 跨平台终端配置
@@ -74,7 +74,7 @@ Fedora 若 `fd`/`bat` 命令不存在，脚本会自动创建 `fdfind→fd`、`b
 
 1. Select "MesloLGS NF" font in your terminal settings
 2. Run `p10k configure` to customize your prompt
-3. 机器本地配置（git 身份/代理、密钥等）请在 `$HOME` 手动维护，例如 `~/.gitconfig.local`（`.gitconfig` 会自动 include）、`~/.local.zshrc` / `~/.path.local/*.sh`（`.zshrc` 会自动 source）
+3. 机器本地配置（git 身份/代理、密钥等）请在 `$HOME` 手动维护，例如 `~/.gitconfig.local`（`.gitconfig` 会自动 include）、`~/.exports.local`（`.zshrc` 会自动 source，且已被 `.gitignore` 忽略，不会误提交）
 
 ## Useful Shortcuts
 

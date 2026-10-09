@@ -11,3 +11,7 @@
 
 # 机器本地：mimocode 运行时目录（不入库、不 stow）
 .mimocode/
+
+# 机器本地：含密钥/令牌的环境变量覆盖（由 .zshrc source，不入库、不 stow）
+# 防止 `stow --adopt` / `git add` 误把 $HOME 的密钥文件带进仓库
+.exports.local
