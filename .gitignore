@@ -6,9 +6,6 @@
 *.swo
 *~
 
-# 机器本地配置（不入库）
-.gitconfig.local
-
 # 已删除的 iTerm2 运行时目录（防止误提交回来）
 .config/iterm2/
 

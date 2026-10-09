@@ -16,13 +16,7 @@ doIt() {
   # 1. 安装依赖（字体、CLI、插件等）
   chmod +x ./pluginstall.sh && ./pluginstall.sh
 
-  # 2. 生成机器本地 git 配置模板（不入库）
-  if [[ ! -f ~/.gitconfig.local && -f .gitconfig.local.example ]]; then
-    cp .gitconfig.local.example ~/.gitconfig.local
-    echo "已创建 ~/.gitconfig.local，请按需填写 name/email 和代理。"
-  fi
-
-  # 3. 用 GNU Stow 创建符号链接
+  # 2. 用 GNU Stow 创建符号链接
   if type stow &>/dev/null; then
     stow --adopt -v -t "$HOME" .
     # --adopt 会把目标机已有文件“搬进”仓库，造成 git 脏状态。
@@ -35,7 +29,7 @@ doIt() {
     return 1
   fi
 
-  # 4. 重载 shell
+  # 3. 重载 shell
   if [ -f ~/.zshrc ]; then
     source ~/.zshrc
   elif [ -f ~/.bash_profile ]; then

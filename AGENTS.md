@@ -141,3 +141,4 @@ Toggle with `proxy_on` / `proxy_off` functions defined in `.zshrc`.
 - Run `bootstrap.sh` on a machine with existing dotfiles without understanding `--adopt` behavior
 - Modify `pluginstall.sh` without testing on both macOS and Linux paths
 - Add files to repo root that should not be symlinked — update `.stow-local-ignore` first
+- Machine-local config/secrets are NOT kept in this repo; maintain them directly in `$HOME` (e.g. `~/.gitconfig.local`, which `.gitconfig` includes; `~/.local.zshrc` and `~/.path.local/*.sh`, which `.zshrc` sources)

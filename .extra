@@ -15,9 +15,9 @@ if type nvim &>/dev/null; then
     alias vim="nvim"
 fi
 if type herdr &>/dev/null; then
-    alias t='herdr'
-    alias ta='herdr session attach'
-    alias tl='herdr status'
+    alias h='herdr'
+    alias ha='herdr session attach'
+    alias hl='herdr status'
 fi
 
 if type zoxide &>/dev/null; then

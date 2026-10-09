@@ -25,7 +25,6 @@ _darcs
 
 ^bootstrap\.sh$
 ^pluginstall\.sh$
-^\.gitconfig\.local\.example$
 ^AGENTS\.md$
 \.mimocode
 \.DS_Store$

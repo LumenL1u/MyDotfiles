@@ -18,8 +18,7 @@ Personal dotfiles managed by GNU Stow.
 - `.aliases` — 跨平台共享别名
 - `.aliases.macos` / `.aliases.linux` — 平台专属别名
 - `.functions` / `.exports` / `.extra` / `.path` — 函数、环境变量、工具别名、PATH
-- `.gitconfig` — 通用 git 配置（代理请放 `~/.gitconfig.local`）
-- `.gitconfig.local.example` — 机器本地 git 配置模板（不入库）
+- `.gitconfig` — 通用 git 配置
 - `.config/herdr` — Herdr 终端工作区管理器
 - `.config/wezterm` — WezTerm 跨平台终端配置
 - `.config/nvim` — Neovim (lazy.nvim)
@@ -75,7 +74,7 @@ Fedora 若 `fd`/`bat` 命令不存在，脚本会自动创建 `fdfind→fd`、`b
 
 1. Select "MesloLGS NF" font in your terminal settings
 2. Run `p10k configure` to customize your prompt
-3. 复制并填写本地 git 配置：`cp ~/.gitconfig.local.example ~/.gitconfig.local`
+3. 机器本地配置（git 身份/代理、密钥等）请在 `$HOME` 手动维护，例如 `~/.gitconfig.local`（`.gitconfig` 会自动 include）、`~/.local.zshrc` / `~/.path.local/*.sh`（`.zshrc` 会自动 source）
 
 ## Useful Shortcuts
 
@@ -90,7 +89,7 @@ Fedora 若 `fd`/`bat` 命令不存在，脚本会自动创建 `fdfind→fd`、`b
 - `ll` - List files with eza
 - `cat` - View files with bat
 - `z` - Jump directories with zoxide
-- `t` - Herdr shorthand
+- `h` - Herdr shorthand（`ha` 附加会话，`hl` 查看状态）
 
 ### Proxy
 - `proxy_on` - Enable terminal proxy（地址由环境变量 `PROXY_ADDR` 覆盖）
