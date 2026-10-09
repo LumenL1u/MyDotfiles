@@ -1,16 +1,16 @@
 # MyDotfiles
 
-Personal dotfiles managed by GNU Stow.
+使用 GNU Stow 管理的个人 dotfiles。
 
-## What's Included
+## 包含内容
 
-| Component | Tech Stack |
+| 组件 | 技术栈 |
 |-----------|------------|
 | Shell | Oh My Zsh + Powerlevel10k |
-| Terminal | WezTerm（macOS / Linux / Windows 通用） |
-| Editor | Neovim (lazy.nvim) |
-| Multiplexer | Herdr |
-| Modern CLI | eza, bat, fd, zoxide, ripgrep, lazygit |
+| 终端 | WezTerm（macOS / Linux / Windows 通用） |
+| 编辑器 | Neovim (lazy.nvim) |
+| 复用器 | Herdr |
+| 现代 CLI | eza, bat, fd, zoxide, ripgrep, lazygit |
 
 ## 目录结构
 
@@ -23,7 +23,7 @@ Personal dotfiles managed by GNU Stow.
 - `.config/wezterm` — WezTerm 跨平台终端配置
 - `.config/nvim` — Neovim (lazy.nvim)
 
-## Quick Start
+## 快速开始
 
 ### macOS
 
@@ -70,27 +70,27 @@ sudo update-locale LANG=en_US.UTF-8
 `pluginstall.sh` 已支持 `dnf` 与 `pacman`，克隆后直接 `./bootstrap.sh` 即可。
 Fedora 若 `fd`/`bat` 命令不存在，脚本会自动创建 `fdfind→fd`、`batcat→bat` 软链。
 
-## Manual Steps
+## 手动步骤
 
-1. Select "MesloLGS NF" font in your terminal settings
-2. Run `p10k configure` to customize your prompt
+1. 在终端设置中选择「MesloLGS NF」字体
+2. 运行 `p10k configure` 自定义提示符
 3. 机器本地配置（git 身份/代理、密钥等）请在 `$HOME` 手动维护，例如 `~/.gitconfig.local`（`.gitconfig` 会自动 include）、`~/.exports.local`（`.zshrc` 会自动 source，且已被 `.gitignore` 忽略，不会误提交）
 
-## Useful Shortcuts
+## 常用快捷键与别名
 
-### Git Aliases
-- `git st` - Short status
-- `git lg` - Pretty log graph
-- `git cm "msg"` - Commit with message
-- `git undo` - Undo last commit (soft)
-- `git amend` - Amend last commit
+### Git 别名
+- `git st` - 简洁状态
+- `git lg` - 美化日志图
+- `git cm "msg"` - 提交并附带信息
+- `git undo` - 撤销上一次提交（soft）
+- `git amend` - 修补上一次提交
 
-### Modern CLI
-- `ll` - List files with eza
-- `cat` - View files with bat
-- `z` - Jump directories with zoxide
-- `h` - Herdr shorthand（`ha` 附加会话，`hl` 查看状态）
+### 现代 CLI
+- `ll` - 使用 eza 列出文件
+- `cat` - 使用 bat 查看文件
+- `z` - 使用 zoxide 跳转目录
+- `h` - Herdr 简写（`ha` 附加会话，`hl` 查看状态）
 
-### Proxy
-- `proxy_on` - Enable terminal proxy（地址由环境变量 `PROXY_ADDR` 覆盖）
-- `proxy_off` - Disable terminal proxy
+### 代理
+- `proxy_on` - 开启终端代理（地址由环境变量 `PROXY_ADDR` 覆盖）
+- `proxy_off` - 关闭终端代理
