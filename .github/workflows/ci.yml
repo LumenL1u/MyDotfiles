@@ -9,7 +9,7 @@ jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Install dependencies
         run: |
@@ -19,22 +19,46 @@ jobs:
       - name: Bash syntax check
         run: |
           set -e
-          for f in bootstrap.sh pluginstall.sh .aliases .aliases.macos .aliases.linux .functions .exports .extra .path; do
+          # 自动发现仓库内所有以 #!/usr/bin/env bash (或 sh) 开头的 shell 文件，
+          # 避免新增/删除文件后必须手工同步此列表。
+          mapfile -t files < <(git ls-files | while read -r f; do
+            [ -f "$f" ] || continue
+            head -1 "$f" 2>/dev/null | grep -qE '^#!.*\b(bash|sh)\b' && echo "$f"
+          done)
+          [ "${#files[@]}" -gt 0 ] || { echo "No bash files found"; exit 1; }
+          for f in "${files[@]}"; do
             bash -n "$f" || { echo "FAIL: $f"; exit 1; }
           done
-          echo "All bash syntax checks passed"
+          echo "Bash syntax OK: ${files[*]}"
 
       - name: Zsh syntax check
         run: |
           set -e
-          for f in .zshrc .aliases .aliases.macos .aliases.linux .functions .exports .extra .path; do
+          # 自动发现仓库内的 zsh 文件：*.zsh / .zshrc，以及仓库根目录下被 zsh 加载的点文件
+          # （.aliases* / .exports / .functions / .path 等，它们由 .zshrc 以 zsh 语法 source）。
+          mapfile -t files < <(git ls-files | while read -r f; do
+            [ -f "$f" ] || continue
+            case "$f" in
+              *.zsh|.zshrc) echo "$f" ;;
+              .*) echo "$f" | grep -qE '^\.(aliases|exports|functions|path)' && echo "$f" ;;
+            esac
+          done)
+          [ "${#files[@]}" -gt 0 ] || { echo "No zsh files found"; exit 1; }
+          for f in "${files[@]}"; do
             zsh -n "$f" || { echo "FAIL: $f"; exit 1; }
           done
-          echo "All zsh syntax checks passed"
+          echo "Zsh syntax OK: ${files[*]}"
 
       - name: ShellCheck (informational)
         run: |
-          shellcheck bootstrap.sh pluginstall.sh .aliases .aliases.macos .aliases.linux .functions .exports .extra .path || true
+          # 仅对 bash shebang 文件运行，结果仅供提示，不影响构建。
+          mapfile -t files < <(git ls-files | while read -r f; do
+            [ -f "$f" ] || continue
+            head -1 "$f" 2>/dev/null | grep -qE '^#!.*\bbash\b' && echo "$f"
+          done)
+          if [ "${#files[@]}" -gt 0 ]; then
+            shellcheck "${files[@]}" || true
+          fi
 
       - name: Validate WezTerm config syntax
         run: |

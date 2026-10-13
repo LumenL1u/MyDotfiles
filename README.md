@@ -17,7 +17,7 @@
 - `.zshrc` / `.p10k.zsh` — zsh 与提示符
 - `.aliases` — 跨平台共享别名
 - `.aliases.macos` / `.aliases.linux` — 平台专属别名
-- `.functions` / `.exports` / `.extra` / `.path` — 函数、环境变量、工具别名、PATH（机器本地覆盖放 `~/.exports.local`）
+- `.functions` / `.exports` / `.path` — 函数、环境变量、PATH（机器本地覆盖放 `~/.exports.local`）
 - `.gitconfig` — 通用 git 配置
 - `.config/herdr` — Herdr 终端工作区管理器
 - `.config/wezterm` — WezTerm 跨平台终端配置

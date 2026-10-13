@@ -19,12 +19,11 @@ Personal dotfiles managed by GNU Stow. Primary target is macOS; Linux is seconda
 |------|---------|
 | `bootstrap.sh` | Entry point: pulls latest, runs `pluginstall.sh`, then `stow --adopt` |
 | `pluginstall.sh` | Installs fonts, Homebrew/apt packages, Oh My Zsh, zsh plugins, Neovim plugins |
-| `.zshrc` | Sources Oh My Zsh, then loads `.path .exports .aliases .functions .extra .exports.local` in order |
+| `.zshrc` | Sources Oh My Zsh, then loads `.path .exports .aliases .functions .exports.local` in order |
 | `.path` | PATH setup (Homebrew, ~/.local/bin) |
 | `.exports` | Environment variables (EDITOR, LANG, HISTSIZE, etc.) |
 | `.aliases` | Shell aliases (navigation, git shortcuts, macOS utilities) |
 | `.functions` | Shell functions (mkd, server, tre, etc.) |
-| `.extra` | Modern CLI overrides: eza→ls, bat→cat, fd→find, zoxide→cd, nvim→vi/vim |
 | `.config/herdr/config.toml` | Herdr keybindings, terminal defaults (prefix ctrl+b) |
 | `.gitconfig` | Git aliases (st, lg, cm, undo, amend, wip) and URL shorthands |
 | `.p10k.zsh` | Powerlevel10k prompt configuration |
@@ -72,10 +71,9 @@ Personal dotfiles managed by GNU Stow. Primary target is macOS; Linux is seconda
 4. `.exports` — environment variables
 5. `.aliases` — shell aliases
 6. `.functions` — shell functions
-7. `.extra` — modern CLI tool overrides (eza, bat, fd, zoxide, nvim)
-8. `.exports.local` — machine-local env overrides/secrets (optional, not in repo)
-9. `.p10k.zsh` — prompt config
-10. `.fzf.zsh` — fzf integration (if exists)
+7. `.exports.local` — machine-local env overrides/secrets (optional, not in repo)
+8. `.p10k.zsh` — prompt config
+9. `.fzf.zsh` — fzf integration (if exists)
 
 ## Git shortcuts (from .gitconfig)
 
@@ -121,7 +119,7 @@ Toggle with `proxy_on` / `proxy_off` functions defined in `.zshrc`.
 
 - Shell scripts use `#!/usr/bin/env bash` shebang
 - Neovim is the default editor (`$EDITOR`, `$VISUAL`)
-- `cd` is aliased to `zoxide` (via `.extra`) — use `builtin cd` if you need the real cd
+- `cd` is aliased to `zoxide` (via `.aliases`) — use `builtin cd` if you need the real cd
 - `cat` is aliased to `bat --paging=never`
 - `find` is aliased to `fd`
 - `vi`/`vim` are aliased to `nvim`
@@ -130,7 +128,7 @@ Toggle with `proxy_on` / `proxy_off` functions defined in `.zshrc`.
 
 ## When editing configs
 
-- **Shell files** (`.zshrc`, `.aliases`, `.exports`, `.functions`, `.extra`, `.path`): Changes take effect after `exec zsh` or `source ~/.zshrc`
+- **Shell files** (`.zshrc`, `.aliases`, `.exports`, `.functions`, `.path`): Changes take effect after `exec zsh` or `source ~/.zshrc`
 - **Neovim configs** (`.config/nvim/lua/**`): Changes take effect on next Neovim launch; lazy.nvim handles plugin sync automatically
 - **Herdr config** (`.config/herdr/config.toml`): Reload with `herdr server reload-config`
 - **WezTerm config** (`.config/wezterm/wezterm.lua`): Reload with `Ctrl+Shift+R` or restart WezTerm

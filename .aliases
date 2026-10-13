@@ -17,7 +17,7 @@ alias dt="cd ~/Desktop"
 alias p="cd ~/projects"
 alias g="git"
 
-# ls aliases are defined in .extra using eza (if available)
+# ls aliases are defined below using eza (if available)
 # Fallback to basic ls if eza is not installed
 if ! type eza &>/dev/null; then
   if ls --color >/dev/null 2>&1; then
