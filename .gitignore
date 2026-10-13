@@ -15,3 +15,10 @@
 # 机器本地：含密钥/令牌的环境变量覆盖（由 .zshrc source，不入库、不 stow）
 # 防止 `stow --adopt` / `git add` 误把 $HOME 的密钥文件带进仓库
 .exports.local
+
+# Herdr 运行时产物（日志、socket、会话快照/状态、插件锁），不入库、不 stow
+.config/herdr/*.log
+.config/herdr/*.sock
+.config/herdr/.plugins.lock
+.config/herdr/session.json
+.config/herdr/session-snapshots/

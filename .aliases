@@ -20,13 +20,13 @@ alias g="git"
 # ls aliases are defined in .extra using eza (if available)
 # Fallback to basic ls if eza is not installed
 if ! type eza &>/dev/null; then
-    if ls --color > /dev/null 2>&1; then
-        colorflag="--color"
-    else
-        colorflag="-G"
-    fi
-    alias ls="command ls ${colorflag}"
-    alias ll="ls -lAF ${colorflag}"
+  if ls --color >/dev/null 2>&1; then
+    colorflag="--color"
+  else
+    colorflag="-G"
+  fi
+  alias ls="command ls ${colorflag}"
+  alias ll="ls -lAF ${colorflag}"
 fi
 
 # Always enable colored `grep` output
@@ -45,13 +45,13 @@ alias week='date +%V'
 alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
 
 # Canonical hex dump; some systems have this symlinked
-command -v hd > /dev/null || alias hd="hexdump -C"
+command -v hd >/dev/null || alias hd="hexdump -C"
 
 # macOS has no `md5sum`, so use `md5` as a fallback
-command -v md5sum > /dev/null || alias md5sum="md5"
+command -v md5sum >/dev/null || alias md5sum="md5"
 
 # macOS has no `sha1sum`, so use `shasum` as a fallback
-command -v sha1sum > /dev/null || alias sha1sum="shasum"
+command -v sha1sum >/dev/null || alias sha1sum="shasum"
 
 # Recursively delete `.DS_Store` files
 alias cleanup="find . -type f -name '*.DS_Store' -ls -delete"
@@ -70,7 +70,7 @@ alias map="xargs -n1"
 
 # One of @janmoesen’s ProTip™s
 for method in GET HEAD POST PUT DELETE TRACE OPTIONS; do
-	alias "${method}"="lwp-request -m '${method}'"
+  alias "${method}"="lwp-request -m '${method}'"
 done
 
 # Reload the shell (i.e. invoke as a login shell)
@@ -81,3 +81,33 @@ alias path='echo -e ${PATH//:/\\n}'
 
 # Add custom alias
 alias cls='clear'
+
+# reload zsh
+alias rz='omz reload'
+
+# ==================== Modern CLI Tools & Aliases ====================
+if type eza &>/dev/null; then
+  alias ls='eza --icons --group-directories-first --color=always'
+  alias ll='eza -lah --icons --group-directories-first --git'
+  alias lt='eza --tree --level=2 --icons'
+fi
+if type bat &>/dev/null; then
+  alias cat="bat --paging=never"
+fi
+if type fd &>/dev/null; then
+  alias find="fd"
+fi
+if type nvim &>/dev/null; then
+  alias vi="nvim"
+  alias vim="nvim"
+fi
+if type herdr &>/dev/null; then
+  alias h='herdr'
+  alias ha='herdr session attach'
+  alias hl='herdr status'
+fi
+
+if type zoxide &>/dev/null; then
+  eval "$(zoxide init zsh)"
+  alias cd="z"
+fi

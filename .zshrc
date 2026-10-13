@@ -25,8 +25,8 @@ DISABLE_AUTO_UPDATE="true"
 DISABLE_COMPFIX="true"
 source $ZSH/oh-my-zsh.sh
 
-# source extra files: 跨平台共享配置
-for file in ~/.{exports,aliases,functions,extra,path,exports.local}; do
+# source extra files: 跨平台
+for file in ~/.{exports*,functions,path,aliases*}; do
   [ -r "$file" ] && [ -f "$file" ] && source "$file"
 done
 unset file

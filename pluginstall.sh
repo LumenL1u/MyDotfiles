@@ -71,9 +71,36 @@ if command -v brew &>/dev/null; then
     tree-sitter tree-sitter-cli lazygit shfmt isort black stow
 elif command -v apt &>/dev/null; then
   sudo apt update
-  sudo apt install -y \
-    neovim tldr zoxide eza bat ripgrep fd-find zsh nodejs npm python3 \
+  packages=(
+    tldr zoxide eza bat ripgrep fd-find zsh nodejs npm python3
     python3-pip tree-sitter tree-sitter-cli lazygit shfmt isort black stow
+  )
+  for pkg in "${packages[@]}"; do
+    echo ">>> installing $pkg"
+    sudo apt install -y "$pkg" || true
+  done
+  # Neovim：apt 仓库版本通常过旧，从官方 release 安装最新版
+  case "$(uname -m)" in
+    x86_64 | amd64) nvim_arch="x86_64" ;;
+    aarch64 | arm64) nvim_arch="arm64" ;;
+    *) nvim_arch="" ;;
+  esac
+  if [[ -n "$nvim_arch" ]]; then
+    nvim_tar="nvim-linux-${nvim_arch}.tar.gz"
+    curl -fLO "https://github.com/neovim/neovim/releases/latest/download/${nvim_tar}"
+    sudo tar -C /opt -xzf "$nvim_tar"
+    sudo ln -sf "/opt/nvim-linux-${nvim_arch}/bin/nvim" /usr/local/bin/nvim
+    rm -f "$nvim_tar"
+  else
+    echo "  Warning: 未知架构 $(uname -m)，跳过 Neovim 安装，请手动安装: https://github.com/neovim/neovim/releases"
+  fi
+  # WSL：Neovim 与系统剪贴板互通需要 win32yank（options.lua 中已配置）
+  if grep -qi microsoft /proc/version 2>/dev/null && ! command -v win32yank.exe &>/dev/null; then
+    echo "  Installing win32yank for WSL clipboard..."
+    sudo curl -fsSL -o /usr/local/bin/win32yank.exe \
+      https://github.com/equalsraf/win32yank/releases/latest/download/win32yank-x64.exe
+    sudo chmod +x /usr/local/bin/win32yank.exe
+  fi
   # Debian/Ubuntu 包名差异：fd-find -> fd, batcat -> bat
   if ! command -v fd &>/dev/null && command -v fdfind &>/dev/null; then
     sudo ln -sf "$(command -v fdfind)" /usr/local/bin/fd
@@ -103,7 +130,6 @@ install_wezterm() {
     echo "  WezTerm 已安装，跳过。"
     return 0
   fi
-
   # macOS
   if [[ "$OSTYPE" == darwin* ]]; then
     if command -v brew &>/dev/null; then
@@ -114,72 +140,27 @@ install_wezterm() {
     return 0
   fi
 
-  # Arch Linux
+  # Linux：包管理器里有就装，否则提示手动安装
   if command -v pacman &>/dev/null; then
     sudo pacman -S --noconfirm wezterm
-    return 0
-  fi
-
-  # Debian/Ubuntu/Fedora：从 GitHub Releases 下载安装包
-  local ver ext asset pkg distro_asset
-  ver=$(curl -fsSL https://api.github.com/repos/wez/wezterm/releases/latest |
-    grep -m1 '"tag_name"' | cut -d'"' -f4)
-  if [ -z "$ver" ]; then
-    echo "  Warning: 无法获取 WezTerm 最新版本，请手动安装: https://wezterm.org/install/linux.html"
-    return 1
-  fi
-
-  ext="deb"
-  command -v dnf &>/dev/null && ext="rpm"
-
-  # 列出所有 .deb/.rpm 安装包
-  asset=$(curl -fsSL https://api.github.com/repos/wez/wezterm/releases/latest |
-    grep -oE '"browser_download_url": *"[^"]+\.'"$ext"'"' |
-    cut -d'"' -f4)
-
-  # 优先匹配当前发行版（如 Ubuntu24.04 / Debian12），否则取第一个
-  if [ -n "$asset" ]; then
-    distro_asset=""
-    local ver_id
-    ver_id=$(grep -oP 'VERSION_ID="\K[^"]+' /etc/os-release 2>/dev/null || true)
-    if grep -qi ubuntu /etc/os-release; then
-      distro_asset=$(echo "$asset" | grep -F "Ubuntu${ver_id}" | head -1)
-    elif grep -qi debian /etc/os-release; then
-      distro_asset=$(echo "$asset" | grep -F "Debian${ver_id}" | head -1)
-    fi
-    [ -n "$distro_asset" ] && asset="$distro_asset"
-    asset=$(echo "$asset" | head -1)
-  fi
-
-  if [ -z "$asset" ]; then
-    echo "  Warning: 未找到匹配的 .$ext 安装包，请手动安装: https://wezterm.org/install/linux.html"
-    return 1
-  fi
-
-  pkg="/tmp/wezterm.${ext}"
-  echo "  下载: $asset"
-  curl -fL "$asset" -o "$pkg"
-  if [ "$ext" = "deb" ]; then
-    sudo apt install -y "$pkg" 2>/dev/null || sudo dpkg -i "$pkg"
+  elif command -v dnf &>/dev/null; then
+    sudo dnf install -y wezterm
+  elif command -v apt &>/dev/null; then
+    sudo apt install -y wezterm
   else
-    sudo dnf install -y "$pkg"
+    echo "  Warning: 未找到可用的包管理器，请手动安装: https://wezterm.org/install/linux.html"
   fi
-  rm -f "$pkg"
 }
 install_wezterm
 
 # ==================== install Herdr ====================
 install_herdr() {
-    echo "Installing Herdr..."
-    if command -v herdr &>/dev/null; then
-        echo "  Herdr 已安装，跳过。"
-        return 0
-    fi
-    if command -v brew &>/dev/null; then
-        brew install herdr
-    else
-        curl -fsSL https://herdr.dev/install.sh | sh
-    fi
+  echo "Installing Herdr..."
+  if command -v herdr &>/dev/null; then
+    echo "  Herdr 已安装，跳过。"
+    return 0
+  fi
+  curl -fsSL https://herdr.dev/install.sh | sh
 }
 install_herdr
 
@@ -227,10 +208,10 @@ ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
 mkdir -p "$ZSH_CUSTOM/plugins" "$ZSH_CUSTOM/themes"
 
 declare -A ZSH_PLUGINS=(
-  [themes / powerlevel10k]="https://github.com/romkatv/powerlevel10k.git"
-  [plugins / zsh - autosuggestions]="https://github.com/zsh-users/zsh-autosuggestions"
-  [plugins / zsh - syntax - highlighting]="https://github.com/zsh-users/zsh-syntax-highlighting"
-  [plugins / zsh - vi - mode]="https://github.com/jeffreytse/zsh-vi-mode"
+  [themes/powerlevel10k]="https://github.com/romkatv/powerlevel10k.git"
+  [plugins/zsh-autosuggestions]="https://github.com/zsh-users/zsh-autosuggestions"
+  [plugins/zsh-syntax-highlighting]="https://github.com/zsh-users/zsh-syntax-highlighting"
+  [plugins/zsh-vi-mode]="https://github.com/jeffreytse/zsh-vi-mode"
 )
 for dir in "${!ZSH_PLUGINS[@]}"; do
   if [ ! -d "$ZSH_CUSTOM/$dir" ]; then
@@ -245,5 +226,3 @@ if command -v nvim &>/dev/null; then
   echo "Installing Neovim plugins via lazy.nvim..."
   nvim --headless "+Lazy! sync" +qa >/dev/null 2>&1 || true
 fi
-
-echo "Done! Please restart your terminal or run 'exec zsh' to enjoy your new environment."
