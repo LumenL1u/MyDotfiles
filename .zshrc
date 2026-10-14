@@ -39,7 +39,7 @@ elif [[ "$OSTYPE" == linux* && -r ~/.aliases.linux ]]; then
 fi
 
 # Proxy switch（可通过环境变量覆盖，避免把本机代理地址写死在仓库里）
-export PROXY_ADDR="${PROXY_ADDR:-http://127.0.0.1:33211}"
+export PROXY_ADDR="${PROXY_ADDR:-http://127.0.0.1:7890}"
 function proxy_on() {
     export http_proxy=$PROXY_ADDR
     export https_proxy=$PROXY_ADDR
