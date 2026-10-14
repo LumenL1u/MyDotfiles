@@ -83,7 +83,7 @@ alias path='echo -e ${PATH//:/\\n}'
 alias cls='clear'
 
 # reload zsh
-alias rz='omz reload'
+alias rz='exec zsh -l'
 
 # ==================== Modern CLI Tools & Aliases ====================
 if type eza &>/dev/null; then
