@@ -52,11 +52,5 @@ function proxy_off() {
     echo "Terminal proxy disabled"
 }
 
-# pyenv：仅在已安装时初始化
-if command -v pyenv &>/dev/null; then
-    export PYENV_ROOT="$HOME/.pyenv"
-    eval "$(pyenv init - zsh)"
-fi
-
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
